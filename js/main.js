@@ -3,7 +3,7 @@ window.tailwind.config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Manrope", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica", "Arial"],
+        sans: ["Space Grotesk", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Helvetica", "Arial"],
       },
       colors: {
         ink: "#0B0F1A",
@@ -13,6 +13,41 @@ window.tailwind.config = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      const href = anchor.getAttribute("href");
+      if (!href || href.length < 2) {
+        return;
+      }
+      const target = document.querySelector(href);
+      if (!target) {
+        return;
+      }
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  const revealItems = document.querySelectorAll(".reveal");
+  if (revealItems.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal--visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+
+    revealItems.forEach((item, index) => {
+      item.style.transitionDelay = `${index * 80}ms`;
+      observer.observe(item);
+    });
+  }
+
   const dateSelect = document.querySelector("[data-booking-date]");
   const timeSelect = document.querySelector("[data-booking-time]");
   const availabilityMessage = document.querySelector("[data-availability-message]");

@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css" />
 
@@ -15,8 +15,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body class="bg-slate-50 text-ink font-sans">
-    <header class="relative h-screen w-full overflow-hidden bg-ink">
+    <body class="bg-slate-50 text-ink font-sans">
+    <header class="relative h-screen w-full overflow-hidden bg-ink reveal">
       <div class="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1200&q=80"
@@ -57,7 +57,7 @@
     </header>
 
     <main>
-      <section class="mx-auto max-w-6xl px-4 py-14">
+      <section class="mx-auto max-w-6xl px-4 py-14 reveal">
         <div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
             <p class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
@@ -103,7 +103,7 @@
         </div>
       </section>
 
-      <section id="prenota" class="bg-slate-100/70">
+      <section id="prenota" class="bg-slate-100/70 reveal">
         <div class="mx-auto max-w-6xl px-4 py-12">
         <h2 class="text-2xl font-semibold">Prenota un appuntamento</h2>
         <p class="mt-2 text-slate-600">
@@ -113,7 +113,7 @@
         <form
           action="/prenota"
           method="POST"
-          class="mt-8 grid gap-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200"
+          class="mt-8 grid gap-4 rounded-3xl bg-white p-6 ring-1 ring-slate-200 reveal"
         >
           <div class="grid gap-4 md:grid-cols-2">
             <label class="grid gap-2 text-sm font-medium">
@@ -218,7 +218,7 @@
       </section>
     </main>
 
-    <footer class="border-t border-slate-200 bg-white">
+    <footer class="border-t border-slate-200 bg-white reveal">
       <div class="mx-auto max-w-6xl px-4 py-10">
         <div class="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
@@ -301,6 +301,7 @@
             <a class="hover:text-slate-700" href="#">Privacy</a>
             <a class="hover:text-slate-700" href="#">Cookie</a>
             <a class="hover:text-slate-700" href="#">Termini</a>
+            <a class="hover:text-slate-700" href="/admin/login">Area riservata</a>
           </div>
         </div>
       </div>

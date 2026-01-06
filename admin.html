@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Prenotazioni</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <script>
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Space Grotesk", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Helvetica", "Arial"],
+            },
+            colors: {
+              ink: "#171717",
+              sand: "#f6f1eb",
+              clay: "#f1e4d4",
+              coral: "#ef7f5d",
+              moss: "#4c7a6d",
+            },
+            boxShadow: {
+              card: "0 16px 45px -30px rgba(23, 23, 23, 0.4)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        background-color: #f6f1eb;
+      }
+      .mesh-bg {
+        background-image:
+          radial-gradient(circle at 15% 20%, rgba(239, 127, 93, 0.22), transparent 45%),
+          radial-gradient(circle at 90% 10%, rgba(76, 122, 109, 0.2), transparent 45%),
+          radial-gradient(circle at 70% 85%, rgba(23, 23, 23, 0.08), transparent 40%);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        will-change: opacity, transform;
+      }
+      .reveal.reveal--visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      .slide-in {
+        animation: slideIn 0.4s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="font-sans text-ink">
+    <div class="mesh-bg min-h-screen">
+      <header class="mx-auto max-w-6xl px-6 pb-6 pt-10 reveal">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-sm uppercase tracking-[0.2em] text-slate-500">Dashboard</p>
+            <h1 class="mt-2 text-3xl font-semibold sm:text-4xl">Prenotazioni studio medico</h1>
+            <p class="mt-2 max-w-2xl text-sm text-slate-600">
+              Controlla le prenotazioni, apri i dettagli e segnala presenza o pagamento in tempo reale.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-card hover:-translate-y-0.5 hover:shadow-lg transition"
+              data-refresh
+            >
+              Aggiorna elenco
+            </button>
+            <a
+              href="/admin/logout"
+              class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-card hover:-translate-y-0.5 hover:shadow-lg transition"
+            >
+              Logout
+            </a>
+            <a
+              href="/"
+              class="rounded-full bg-ink px-4 py-2 text-sm font-medium text-white shadow-card hover:-translate-y-0.5 hover:shadow-lg transition"
+            >
+              Torna al sito
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <main class="mx-auto grid max-w-6xl gap-6 px-6 pb-14 lg:grid-cols-[1.2fr_0.8fr]">
+        <section class="rounded-[32px] bg-white p-6 shadow-card ring-1 ring-black/5 reveal">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-semibold">Elenco prenotazioni</h2>
+              <p class="mt-1 text-sm text-slate-500">Totale prenotazioni: <span data-total-count>0</span></p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <label class="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600">
+                Cerca
+                <input
+                  type="search"
+                  placeholder="Nome, cognome, telefono, email"
+                  class="w-48 bg-transparent text-xs font-medium text-slate-700 placeholder:text-slate-400 focus:outline-none"
+                  data-search
+                />
+              </label>
+              <div class="rounded-full bg-clay px-3 py-1 text-xs font-semibold text-ink" data-last-update>
+                Ultimo aggiornamento: --
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 grid gap-3" data-booking-list>
+            <div class="rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+              Caricamento in corso...
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-[32px] bg-white p-6 shadow-card ring-1 ring-black/5 reveal">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">Dettagli prenotazione</h2>
+            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600" data-booking-status>
+              Nessuna selezione
+            </span>
+          </div>
+
+          <div class="mt-6 space-y-4" data-booking-details>
+            <div class="rounded-2xl border border-dashed border-slate-200 p-4 text-sm text-slate-500">
+              Seleziona una prenotazione per vedere i dettagli.
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-sand px-4 py-3 text-sm text-slate-600" data-admin-message>
+            Seleziona una prenotazione per iniziare.
+          </div>
+
+          <div class="mt-8 rounded-3xl border border-slate-100 bg-sand/70 p-5">
+            <h3 class="text-lg font-semibold">Inserisci prenotazione manuale</h3>
+            <p class="mt-1 text-sm text-slate-600">
+              Inserisci i dati ricevuti telefonicamente o di persona.
+            </p>
+
+            <form class="mt-4 grid gap-3" data-manual-form>
+              <div class="grid gap-3 sm:grid-cols-2">
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Nome
+                  <input
+                    name="nome"
+                    required
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  />
+                </label>
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Cognome
+                  <input
+                    name="cognome"
+                    required
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  />
+                </label>
+              </div>
+
+              <div class="grid gap-3 sm:grid-cols-2">
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Telefono
+                  <input
+                    name="telefono"
+                    type="tel"
+                    required
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  />
+                </label>
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Email
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  />
+                </label>
+              </div>
+
+              <div class="grid gap-3 sm:grid-cols-2">
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Data
+                  <input
+                    name="data"
+                    type="date"
+                    required
+                    data-manual-date
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  />
+                </label>
+                <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  Orario
+                  <select
+                    name="ora"
+                    required
+                    data-manual-time
+                    class="h-11 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                  ></select>
+                </label>
+              </div>
+
+              <label class="grid gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Note
+                <textarea
+                  name="note"
+                  rows="2"
+                  class="rounded-2xl border border-slate-200 px-3 py-2 text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-ink/20"
+                ></textarea>
+              </label>
+
+              <button
+                type="submit"
+                class="rounded-2xl bg-ink px-4 py-3 text-sm font-semibold text-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Salva prenotazione
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+  </body>
+</html>

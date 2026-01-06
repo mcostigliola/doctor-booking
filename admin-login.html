@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <script>
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Space Grotesk", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Helvetica", "Arial"],
+            },
+            colors: {
+              ink: "#171717",
+              sand: "#f6f1eb",
+              moss: "#4c7a6d",
+            },
+            boxShadow: {
+              card: "0 16px 45px -30px rgba(23, 23, 23, 0.4)",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        background-color: #f6f1eb;
+      }
+      .mesh-bg {
+        background-image:
+          radial-gradient(circle at 15% 20%, rgba(239, 127, 93, 0.18), transparent 45%),
+          radial-gradient(circle at 90% 10%, rgba(76, 122, 109, 0.18), transparent 45%),
+          radial-gradient(circle at 70% 85%, rgba(23, 23, 23, 0.08), transparent 40%);
+      }
+      .float-in {
+        animation: floatIn 0.5s ease-out;
+      }
+      @keyframes floatIn {
+        from {
+          opacity: 0;
+          transform: translateY(14px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="font-sans text-ink">
+    <div class="mesh-bg min-h-screen">
+      <main class="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6 py-12">
+        <div class="w-full max-w-md rounded-[32px] bg-white p-8 shadow-card ring-1 ring-black/5 float-in">
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Area riservata</p>
+          <h1 class="mt-3 text-3xl font-semibold">Accesso admin</h1>
+          <p class="mt-2 text-sm text-slate-600">
+            Inserisci la password per accedere alla dashboard delle prenotazioni.
+          </p>
+
+          <form action="/admin/login" method="POST" class="mt-6 grid gap-4">
+            <label class="grid gap-2 text-sm font-medium">
+              Utente
+              <input
+                name="username"
+                type="text"
+                required
+                autocomplete="username"
+                class="h-12 rounded-2xl border border-slate-200 px-4 text-base focus:outline-none focus:ring-2 focus:ring-ink/20"
+              />
+            </label>
+
+            <label class="grid gap-2 text-sm font-medium">
+              Password
+              <input
+                name="password"
+                type="password"
+                required
+                autocomplete="current-password"
+                class="h-12 rounded-2xl border border-slate-200 px-4 text-base focus:outline-none focus:ring-2 focus:ring-ink/20"
+              />
+            </label>
+
+            <button
+              type="submit"
+              class="rounded-2xl bg-ink px-4 py-3 text-sm font-semibold text-white shadow-card transition hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              Entra
+            </button>
+          </form>
+
+          <div class="mt-6 text-xs text-slate-500">
+            Default locale: admin / admin. Puoi impostare `ADMIN_USER` e `ADMIN_PASSWORD` sul server.
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
