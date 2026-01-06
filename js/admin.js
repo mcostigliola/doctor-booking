@@ -14,6 +14,8 @@ const searchInput = document.querySelector("[data-search]");
 const manualForm = document.querySelector("[data-manual-form]");
 const manualDate = document.querySelector("[data-manual-date]");
 const manualTime = document.querySelector("[data-manual-time]");
+const manualToggle = document.querySelector("[data-manual-toggle]");
+const manualPanel = document.querySelector("[data-manual-panel]");
 
 let availabilityCache = null;
 
@@ -480,6 +482,18 @@ if (searchInput) {
 initReveal();
 loadBookings();
 loadAvailability();
+
+if (manualToggle && manualPanel) {
+  const setManualOpen = (isOpen) => {
+    manualPanel.classList.toggle("is-open", isOpen);
+    manualToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  };
+
+  manualToggle.addEventListener("click", () => {
+    const nextOpen = !manualPanel.classList.contains("is-open");
+    setManualOpen(nextOpen);
+  });
+}
 
 if (manualForm) {
   manualForm.addEventListener("submit", (event) => {
